@@ -51,3 +51,6 @@ while True:
                 print(f"{bot_name}: {random.choice(intent['responses'])}")
     else:
         print(f"{bot_name}: I do not understand...")
+
+
+print("Have a nice day.")
