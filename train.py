@@ -98,10 +98,33 @@ def loss_and_optimizer(model, learning_rate):
     return criterion, optimizer
 
 
+def train_model(num_epochs, train_loader, device, model, optimizer):
+    for epoch in range(num_epochs):
+        for (words, labels) in train_loader:
+            words = words.to(device)
+            labels = labels.to(dtype=torch.long).to(device)
+
+            # Forward pass
+            outputs = model(words)
+            # if y would be one-hot, we must apply
+            # labels = torch.max(labels, 1)[1]
+            loss = criterion (outputs, labels)
+
+            # Backward and optimize
+            optimizer.zero_grad ()
+            loss.backward ()
+            optimizer.step ()
+
+        if (epoch + 1) % 100 == 0:
+            print (f'Epoch [{epoch + 1}/{num_epochs}], Loss: {loss.item ():.4f}')
+
+    print (f'final loss: {loss.item ():.4f}')
+
+
 # all other code
 intents = open_file ('intents.json')
 # loop through each sentence in our intents patterns
-all_words, tags, xy = append_all_words_tags_and_xy (intents)
+all_words, tags, xy = append_all_words_tags_and_xy(intents)
 # stem and lower each word
 ignore_words = [ '?', '.', '!' ]
 all_words, tags = stem_and_lower (all_words, tags, ignore_words=ignore_words)
@@ -124,26 +147,7 @@ train_loader, device, model = create_dataset_device_and_model(batch_size, input_
 criterion, optimizer = loss_and_optimizer(model, learning_rate)
 
 # Train the model
-for epoch in range (num_epochs):
-    for (words, labels) in train_loader:
-        words = words.to (device)
-        labels = labels.to (dtype=torch.long).to (device)
-
-        # Forward pass
-        outputs = model (words)
-        # if y would be one-hot, we must apply
-        # labels = torch.max(labels, 1)[1]
-        loss = criterion (outputs, labels)
-
-        # Backward and optimize
-        optimizer.zero_grad ()
-        loss.backward ()
-        optimizer.step ()
-
-    if (epoch + 1) % 100 == 0:
-        print (f'Epoch [{epoch + 1}/{num_epochs}], Loss: {loss.item ():.4f}')
-
-print (f'final loss: {loss.item ():.4f}')
+train_model(num_epochs, train_loader, device, model, optimizer)
 
 data = {
     "model_state": model.state_dict (),
