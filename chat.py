@@ -27,7 +27,7 @@ model.load_state_dict(model_state)
 model.eval()
 
 bot_name = "Mr.Robot"
-print("Let's chat! (type 'quit' to exit)")
+print("Hi! I am Mr.Robot. Khai's virtual assistant. (type 'quit' to exit)")
 while True:
     sentence = input("You: ")
     if sentence == "quit":
