@@ -39,18 +39,23 @@ def append_all_words_tags_and_xy (intents):
     return all_words, tags, xy
 
 
+def stem_and_lower(all_words, tags, ignore_words = [ '?', '.', '!' ]):
+    ignore_words = [ '?', '.', '!' ]
+    all_words = [ stem (w) for w in all_words if w not in ignore_words ]
+    # remove duplicates and sort
+    all_words = sorted (set (all_words))
+    tags = sorted (set (tags))
+    return all_words, tags
+
+
 # all other code
 intents = open_file ('intents.json')
 # loop through each sentence in our intents patterns
-
 all_words, tags, xy = append_all_words_tags_and_xy(intents)
 
 # stem and lower each word
 ignore_words = [ '?', '.', '!' ]
-all_words = [ stem (w) for w in all_words if w not in ignore_words ]
-# remove duplicates and sort
-all_words = sorted (set (all_words))
-tags = sorted (set (tags))
+all_words, tags = stem_and_lower(all_words, tags, ignore_words = ignore_words)
 
 # create training data
 X_train = [ ]
