@@ -80,6 +80,24 @@ def hyper_param (num_epochs=1000,
     return num_epochs, batch_size, learning_rate, input_size, hidden_size, output_size
 
 
+def create_dataset_device_and_model(batch_size, input_size, hidden_size):
+    dataset = ChatDataset(X_train, y_train)
+    train_loader = DataLoader(dataset=dataset,
+                               batch_size=batch_size,
+                               shuffle=True,
+                               num_workers=0)
+    device = torch.device ('cuda' if torch.cuda.is_available () else 'cpu')
+    model = NeuralNet (input_size, hidden_size, hidden_size).to (device)
+
+    return train_loader, device, model
+
+
+def loss_and_optimizer(model, learning_rate):
+    criterion = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(model.parameters (), lr=learning_rate)
+    return criterion, optimizer
+
+
 # all other code
 intents = open_file ('intents.json')
 # loop through each sentence in our intents patterns
@@ -99,18 +117,11 @@ num_epochs, batch_size, learning_rate, input_size, hidden_size, output_size = hy
                                                                                            hidden_size=8,
                                                                                            output_size=len(tags),
                                                                                            )
-dataset = ChatDataset (X_train, y_train)
-train_loader = DataLoader (dataset=dataset,
-                           batch_size=batch_size,
-                           shuffle=True,
-                           num_workers=0)
-
-device = torch.device ('cuda' if torch.cuda.is_available () else 'cpu')
-model = NeuralNet (input_size, hidden_size, output_size).to (device)
+#create dataset, device and model
+train_loader, device, model = create_dataset_device_and_model(batch_size, input_size, hidden_size)
 
 # Loss and optimizer
-criterion = nn.CrossEntropyLoss ()
-optimizer = torch.optim.Adam (model.parameters (), lr=learning_rate)
+criterion, optimizer = loss_and_optimizer(model, learning_rate)
 
 # Train the model
 for epoch in range (num_epochs):
