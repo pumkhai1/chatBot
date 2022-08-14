@@ -1,3 +1,4 @@
+# all imports
 import numpy as np
 import random
 import json
@@ -10,9 +11,14 @@ from nltk_utils import bag_of_words, tokenize, stem
 from model import NeuralNet
 from ChatDataset import ChatDataset
 
+# all def and functions
+def open_file(name):
+    with open (name, 'r') as f:
+        intents = json.load (f)
+    return intents
 
-with open('intents.json', 'r') as f:
-    intents = json.load(f)
+# all other code
+intents = open_file('intents.json')
 
 all_words = []
 tags = []
@@ -59,23 +65,6 @@ input_size = len(X_train[0])
 hidden_size = 8
 output_size = len(tags)
 print(input_size, output_size)
-
-'''
-class ChatDataset(Dataset):
-
-    def __init__(self):
-        self.n_samples = len(X_train)
-        self.x_data = X_train
-        self.y_data = y_train
-
-    # support indexing such that dataset[i] can be used to get i-th sample
-    def __getitem__(self, index):
-        return self.x_data[index], self.y_data[index]
-
-    # we can call len(dataset) to return the size
-    def __len__(self):
-        return self.n_samples
-'''
 
 dataset = ChatDataset(X_train, y_train)
 train_loader = DataLoader(dataset=dataset,
