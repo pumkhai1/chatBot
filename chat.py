@@ -5,11 +5,12 @@ import torch
 
 from model import NeuralNet
 from nltk_utils import bag_of_words, tokenize
+from training_utils import open_json_file
+
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-with open('intents.json', 'r') as json_data:
-    intents = json.load(json_data)
+intents = open_json_file('intents.json')
 
 FILE = "data.pth"
 data = torch.load(FILE)
@@ -28,7 +29,6 @@ model.eval()
 bot_name = "Mr.Robot"
 print("Let's chat! (type 'quit' to exit)")
 while True:
-    # sentence = "do you use credit cards?"
     sentence = input("You: ")
     if sentence == "quit":
         break
@@ -50,7 +50,7 @@ while True:
             if tag == intent["tag"]:
                 print(f"{bot_name}: {random.choice(intent['responses'])}")
     else:
-        print(f"{bot_name}: I do not understand...")
+        print(f"{bot_name}: Sorry, I do not understand...")
 
 
 print("Have a nice day.")

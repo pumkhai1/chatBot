@@ -13,6 +13,7 @@ from training_utils import open_json_file,stem_and_lower,create_training_data,lo
 
 intents = open_json_file('intents.json')
 
+# appending contents from json files
 all_words, tags, xy = appending_ops(intents)
 
 # stem and lower each word
