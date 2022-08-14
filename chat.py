@@ -1,11 +1,15 @@
+# importing random, json file, and Pytorch
 import random
 import json
 import torch
+
+# import custom NeuralNet and  nltk_utils files
 from model import NeuralNet
 from nltk_utils import bag_of_words, tokenize
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+#Open the training file
 with open('intents.json', 'r') as f:
     intents = json.load(f)
 
@@ -24,7 +28,7 @@ model = NeuralNet(input_size, hidden_size, output_size).to(device)
 model.load_state_dict(model_state)
 model.eval()
 
-bot_name = "Sam"
+bot_name = "Mr.Robot"
 print("Let's chat! type 'quit' to exit")
 
 while True:
@@ -47,6 +51,7 @@ while True:
         for intent in intents['intents']:
             if tag == intent['tag']:
                 print(f"{bot_name}: {random.choice(intent['responses'])}")
+
     else:
         print(f"{bot_name}: I do not understand...")
 

@@ -2,14 +2,13 @@ import nltk
 from nltk.stem.porter import PorterStemmer
 import numpy as np
 
-stemmer = PorterStemmer()
-
 
 def tokenize(sentence):
     return nltk.word_tokenize(sentence)
 
 
 def stem(word):
+    stemmer = PorterStemmer()
     return stemmer.stem(word.lower())
 
 
