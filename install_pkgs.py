@@ -1,9 +1,12 @@
 import os
-print("installing numpy________________________")
+
+print("Creating and activating virtual env________________________")
+os.system("python3 -m venv venv | . venv/bin/activate")
+print("Installing numpy________________________")
 os.system("pip install numpy") # install numpy
-print("installing PyTorch________________________")
+print("Installing PyTorch________________________")
 os.system("pip install torch") # install py torch
-print("installing nltk________________________")
+print("Installing nltk________________________")
 os.system("pip install nltk") # install nltk lib
 os.system("python download_nltk.py")
 
