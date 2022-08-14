@@ -6,10 +6,12 @@ necessary package.
 
 # How to Run it on Local Machine
   -  Clone this repo.
+  -  run ```python -m venv venv```
+  -  run ```. venv/bin/activate``` 
   -  run ``` python install_pkgs.py```
   -  run ``` python run_chatBot.py```
 
 enjoy it and feel free to change the training data in intents.json file.
 
 # Each different files
-  - ```install_pkgs.py``` create and activate virtual env. It also install PyTorch, Numpy, and NLTK Lib
+  - ```install_pkgs.py``` Install PyTorch, Numpy, and NLTK Lib
