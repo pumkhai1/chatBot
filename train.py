@@ -121,6 +121,21 @@ def train_model(num_epochs, train_loader, device, model, optimizer):
     print (f'final loss: {loss.item ():.4f}')
 
 
+def save_data(model, input_size, output_size, hidden_size, all_words, tags):
+    data = {
+        "model_state": model.state_dict (),
+        "input_size": input_size,
+        "output_size": output_size,
+        "hidden_size": hidden_size,
+        "all_words": all_words,
+        "tags": tags
+    }
+
+    FILE = "data.pth"
+    torch.save(data, FILE)
+    print(f'training complete. file saved to {FILE}')
+
+
 # all other code
 intents = open_file ('intents.json')
 # loop through each sentence in our intents patterns
@@ -148,16 +163,5 @@ criterion, optimizer = loss_and_optimizer(model, learning_rate)
 
 # Train the model
 train_model(num_epochs, train_loader, device, model, optimizer)
-
-data = {
-    "model_state": model.state_dict (),
-    "input_size": input_size,
-    "output_size": output_size,
-    "hidden_size": hidden_size,
-    "all_words": all_words,
-    "tags": tags
-}
-
-FILE = "data.pth"
-torch.save (data, FILE)
-print (f'training complete. file saved to {FILE}')
+# save model
+save_data(model, input_size, output_size, hidden_size, all_words, tags)
