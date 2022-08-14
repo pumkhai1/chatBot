@@ -1,9 +1,4 @@
 import os
-print("Creating virtual enviroment________________________")
-os.system("python3 -m venv venv") # create env
-print("activation virtual enviroment________________________")
-os.system(". venv/bin/activate") # activate env
-
 print("installing numpy________________________")
 os.system("pip install numpy") # install numpy
 print("installing PyTorch________________________")
