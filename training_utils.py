@@ -3,7 +3,9 @@ import random
 import json
 import torch
 import torch.nn as nn
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import DataLoader
+
+from ChatDataset import ChatDataset
 from nltk_utils import bag_of_words, tokenize, stem
 from model import NeuralNet
 
@@ -117,3 +119,18 @@ def appending_ops(intents):
             # add to xy pair
             xy.append ( (w,tag) )
     return all_words, tags, xy
+
+
+def create_model_and_device(input_size, hidden_size, output_size):
+    # create model and device
+    device = torch.device ( 'cuda' if torch.cuda.is_available () else 'cpu' )
+    model = NeuralNet ( input_size,hidden_size,output_size ).to ( device )
+    return device, model
+
+def create_load_dataset(X_train, y_train, batch_size):
+    dataset = ChatDataset ( X_train,y_train )
+    train_loader = DataLoader ( dataset=dataset,
+                                batch_size=batch_size,
+                                shuffle=True,
+                                num_workers=0 )
+    return dataset, train_loader
