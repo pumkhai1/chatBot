@@ -13,5 +13,7 @@ necessary package.
 
 enjoy it and feel free to change the training data in intents.json file.
 
-# Each different files
+# Installation files
   - ```install_pkgs.py``` Install PyTorch, Numpy, and NLTK Lib
+  - ```run_chatBot.py``` train and run the model and delete the saved data in order to avoid conflict.
+  - ```download_nltk.py``` download nltk 
