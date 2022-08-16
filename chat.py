@@ -1,20 +1,13 @@
 import random
-import json
-
 import torch
-
 from model import NeuralNet
 from nltk_utils import bag_of_words, tokenize
 from training_utils import open_json_file
 
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
 intents = open_json_file('intents.json')
-
 FILE = "data.pth"
 data = torch.load(FILE)
-
 input_size = data["input_size"]
 hidden_size = data["hidden_size"]
 output_size = data["output_size"]
@@ -22,12 +15,14 @@ all_words = data['all_words']
 tags = data['tags']
 model_state = data["model_state"]
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = NeuralNet(input_size, hidden_size, output_size).to(device)
 model.load_state_dict(model_state)
 model.eval()
 
 bot_name = "Mr.Robot"
-print("Hi! I am Mr.Robot. Khai's virtual assistant. (type 'quit' to exit)")
+
+print(f"Hi! I am {bot_name}. Khai's virtual assistant. (type 'quit' to exit)")
 while True:
     sentence = input("You: ")
     if sentence == "quit":
@@ -51,6 +46,4 @@ while True:
                 print(f"{bot_name}: {random.choice(intent['responses'])}")
     else:
         print(f"{bot_name}: Sorry, I do not understand...")
-
-
 print("Have a nice day.")
