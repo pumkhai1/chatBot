@@ -6,20 +6,22 @@ from training_utils import open_json_file
 import os.path
 
 
+# create bot OOP style
+
 class CreateBot:
     def __init__ (self,name):
         self.__bot_name = name
         if not os.path.isfile ( 'data.pth' ):
-            self.__train_model()
+            self.__train_model ()
 
-    def __get_name__(self):
+    def __get_name__ (self):
         return self.__bot_name
 
-    def __set_name__(self, name):
+    def __set_name__ (self,name):
         self.__bot_name = name
 
-    def __retrained__(self):
-        return self.__train_model()
+    def __retrained__ (self):
+        return self.__train_model ()
 
     def __response (self):
         print ( f"Hi! I am {self.__bot_name}. A virtual assistant. (type 'quit' to exit)" )
@@ -69,5 +71,5 @@ class CreateBot:
         self.__model.load_state_dict ( self.__model_state )
         self.__model.eval ()
 
-    def __train_model(self):
+    def __train_model (self):
         os.system ( 'python train.py' )
